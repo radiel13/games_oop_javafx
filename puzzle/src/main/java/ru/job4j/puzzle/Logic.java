@@ -72,7 +72,6 @@ public class Logic {
         int[][] table = this.convert();
         boolean result = false;
         int cnt = 0;
-        int cnt2 = 0;
         for (int i = 0; i < table.length; i++) {
             if (table[i][i] == 1) {
                 for (int j = 0; j < table.length; j++) {
@@ -84,10 +83,11 @@ public class Logic {
                         }
                     }
                 }
+                cnt = 0;
                 for (int k = 0; k < table.length; k++) {
                     if (table[k][i] == 1) {
-                        cnt2++;
-                        if (cnt2 == 5) {
+                        cnt++;
+                        if (cnt == 5) {
                             result = true;
                             break;
                         }
