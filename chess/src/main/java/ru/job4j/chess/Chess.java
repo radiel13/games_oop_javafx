@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -12,6 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import ru.job4j.chess.ChessExceptions.ImpossibleMoveException;
 import ru.job4j.chess.firuges.Cell;
 import ru.job4j.chess.firuges.Figure;
 import ru.job4j.chess.firuges.black.*;
@@ -60,13 +62,21 @@ public class Chess extends Application {
         );
         rect.setOnMouseReleased(
                 event -> {
-                    if (logic.move(this.findBy(momento.getX(), momento.getY()), this.findBy(event.getX(), event.getY()))) {
-                        rect.setX(((int) event.getX() / 40) * 40 + 5);
-                        rect.setY(((int) event.getY() / 40) * 40 + 5);
-                    } else {
-                        rect.setX(((int) momento.getX() / 40) * 40 + 5);
-                        rect.setY(((int) momento.getY() / 40) * 40 + 5);
-                    }
+                        try {
+                                if (logic.move(this.findBy(momento.getX(), momento.getY()), this.findBy(event.getX(), event.getY()))) {
+                                    rect.setX(((int) event.getX() / 40) * 40 + 5);
+                                    rect.setY(((int) event.getY() / 40) * 40 + 5);
+                                } else {
+                                    rect.setX(((int) momento.getX() / 40) * 40 + 5);
+                                    rect.setY(((int) momento.getY() / 40) * 40 + 5);
+                                }
+                        } catch (Exception e) {
+                                Alert info = new Alert(Alert.AlertType.ERROR);
+                                info.setContentText(e.getClass().getName() +  " "  + e.getMessage());
+                                info.show();
+                                rect.setX(((int) momento.getX() / 40) * 40 + 5);
+                                rect.setY(((int) momento.getY() / 40) * 40 + 5);
+                        }
                 }
         );
         return rect;
